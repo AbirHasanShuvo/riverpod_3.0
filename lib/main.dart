@@ -8,6 +8,9 @@ final nameProvider = Provider<String>((ref) {
   return "Hello Black Titanium";
 });
 
+//state provider
+final counterProvider = StateProvider<int>((ref) => 0);
+
 void main() {
   runApp(
     ProviderScope(
@@ -52,7 +55,43 @@ class _MainState extends ConsumerState<Main> {
   @override
   Widget build(BuildContext context) {
     final name = ref.watch(nameProvider);
+    final count = ref.watch(counterProvider);
 
-    return Scaffold(body: Center(child: Text(name)));
+    //this is a great feature of riverpod
+
+    ref.listen(counterProvider, (previous, next) {
+      if (next == 10) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Your number is clicked')));
+      }
+    });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Riverpod printing'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.refresh(counterProvider);
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // ref.read(counterProvider.notifier).state++;
+          //another approach
+          ref.read(counterProvider.notifier).update((state) => state + 1);
+        },
+        child: Icon(Icons.add),
+      ),
+      body: Center(
+        child: Text(
+          count.toString(),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+        ),
+      ),
+    );
   }
 }
