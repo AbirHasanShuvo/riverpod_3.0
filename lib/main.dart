@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_v3/new_series/api_services.dart';
+import 'package:riverpod_v3/new_series/MyHomePage/MyHomePage.dart';
+import 'package:riverpod_v3/new_series/familymodifier/family_provider.dart';
+import 'package:riverpod_v3/new_series/theme_provider/theme_provider.dart';
 import 'package:riverpod_v3/new_series/user_data.dart';
-import 'package:riverpod_v3/new_series/user_model.dart';
 
 final nameProvider = Provider<String>((ref) {
   return "Hello Black Titanium";
@@ -12,11 +13,7 @@ final nameProvider = Provider<String>((ref) {
 final counterProvider = StateProvider<int>((ref) => 0);
 
 void main() {
-  runApp(
-    ProviderScope(
-      child: MaterialApp(debugShowCheckedModeBanner: false, home: UserData()),
-    ),
-  );
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -25,19 +22,12 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final name = ref.watch(nameProvider);
+    //for the theme
+    final isLightTheme = ref.watch(themeProvider);
+    return MaterialApp(
+      theme: isLightTheme ? ThemeData.light() : ThemeData.dark(),
+      home: MyHomePage()
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Riverpod return')),
-      // body: Center(child: Text(name))
-      //another method below
-      body: Center(
-        child: Consumer(
-          builder: (context, ref, child) {
-            final name = ref.watch(nameProvider);
-            return Text(name);
-          },
-        ),
-      ),
     );
   }
 }
