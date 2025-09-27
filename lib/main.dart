@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_v3/new_series/MyHomePage/MyHomePage.dart';
-import 'package:riverpod_v3/new_series/familymodifier/family_provider.dart';
+import 'package:riverpod_v3/new_series/theme_provider/MyHomePage.dart';
 import 'package:riverpod_v3/new_series/theme_provider/theme_provider.dart';
-import 'package:riverpod_v3/new_series/user_data.dart';
+import 'package:riverpod_v3/new_series/widget_rebuild/new_home.dart';
 
 final nameProvider = Provider<String>((ref) {
   return "Hello Black Titanium";
@@ -25,9 +24,9 @@ class MyApp extends ConsumerWidget {
     //for the theme
     final isLightTheme = ref.watch(themeProvider);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: isLightTheme ? ThemeData.light() : ThemeData.dark(),
-      home: MyHomePage()
-
+      home: NewHome(),
     );
   }
 }

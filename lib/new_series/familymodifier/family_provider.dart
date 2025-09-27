@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //this is the provider when i can pass the value
+
+//only a single value can be passed by it, not multiple values
 final nameProvider = Provider.family<String, String>((ref, name) {
   return 'Hello, $name';
 });
